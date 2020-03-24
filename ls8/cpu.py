@@ -84,20 +84,20 @@ class CPU:
         HLT = 0b00000001
 
         while running:
-            self.IR = bin(self.ram_read(self.PC))
-            operand_a = bin(self.ram_read(self.PC + 1))
-            operand_b = bin(self.ram_read(self.PC + 2))
+            IR = self.ram_read(self.PC)
+            operand_a = self.ram_read(self.PC + 1)
+            operand_b = self.ram_read(self.PC + 2)
 
-            if int(self.IR, 2) == LDI:
-                self.reg[int(operand_a, 2)] = operand_b
+            if IR == LDI:
+                self.reg[operand_a] = operand_b
                 self.PC += 3
 
-            if int(self.IR, 2) == PRN:
-                print(int(operand_a, 2))
-                print(self.reg[int(operand_a, 2)])
+            if IR == PRN:
+                print(operand_a)
+                print(self.reg[operand_a])
                 self.PC += 2
 
-            if int(self.IR, 2) == HLT:
+            if IR == HLT:
                 self.PC += 1
-                print("exiting")
+                print("exiting....")
                 running = False
