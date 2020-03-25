@@ -99,6 +99,9 @@ class CPU:
         PRN = 0b01000111
         HLT = 0b00000001
         MUL = 0b10100010
+        PUSH = 0b01000101
+        POP = 0b01000110
+        SP = 7
 
         while not self.HALTED:
             IR = self.ram[self.PC]
@@ -115,4 +118,15 @@ class CPU:
                 print(self.reg[operand_a])
             elif IR == MUL:
                 self.alu("MUL", operand_a, operand_b)
+            elif IR == PUSH:
+                reg = self.ram[self.PC + 1]
+                val = self.reg[reg]
+                self.reg[SP] -= 1
+                self.ram[self.reg[SP]] = val
+            elif IR == POP:
+                reg = self.ram[self.PC + 1]
+                val = self.ram[self.reg[SP]]
+                self.reg[reg] = val
+                self.reg[SP] += 1
+
             self.PC += operands + 1
